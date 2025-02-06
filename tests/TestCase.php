@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Katalam\Tilemaker\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Katalam\Tilemaker\Http\Controllers\MetaDataController;
+use Katalam\Tilemaker\Http\Controllers\TileController;
 use Katalam\Tilemaker\TilemakerServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -15,18 +17,24 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Katalam\\Tilemaker\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            static fn (string $modelName) => 'Katalam\\Tilemaker\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
-    protected function getPackageProviders($app)
+    protected function defineRoutes($router): void
+    {
+        $router->get('meta-data', MetaDataController::class);
+        $router->get('{zoom}/{x}/{y}', TileController::class);
+    }
+
+    protected function getPackageProviders($app): array
     {
         return [
             TilemakerServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 

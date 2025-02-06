@@ -34,8 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Katalam\\Tilemaker\\": "src/",
-            "Katalam\\Tilemaker\\Database\\Factories\\": "database/factories/"
+            "Katalam\\Tilemaker\\": "src/"
         }
     },
     "autoload-dev": {
