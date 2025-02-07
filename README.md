@@ -52,9 +52,16 @@ php artisan storage:link
 
 Import fetch meta-data and the map variable from map.js
 ```js
-import { fetchMetaData, map } from "./map.js";
+import { Map } from "./map.js";
 
-fetchMetaData()
+const map = new Map
+map.init()
+    .then(() => {
+        map.getRoute()
+            .then(data => {
+                map.displayRoute(data)
+            })
+    });
 ```
 You will see a map with the default settings.
 
